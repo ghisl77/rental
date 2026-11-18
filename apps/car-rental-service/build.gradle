@@ -47,3 +47,8 @@ tasks.withType(Checkstyle).configureEach {
 		html.required = true
 	}
 }
+
+// Un seul jar exécutable dans build/libs : le Dockerfile copie *.jar vers app.jar
+tasks.named('jar') {
+	enabled = false
+}
