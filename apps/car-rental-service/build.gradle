@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.4.0'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'checkstyle'
 }
 
 group = 'com.example'
@@ -31,4 +32,23 @@ tasks.named('test') {
 
 tasks.withType(JavaCompile).configureEach {
 	options.release = 17
+}
+
+checkstyle {
+	// Version 10.x : la ligne 11.x exige Java 21
+	toolVersion = '10.21.4'
+	configFile = file('config/checkstyle/checkstyle.xml')
+	maxWarnings = 0
+}
+
+tasks.withType(Checkstyle).configureEach {
+	reports {
+		xml.required = true
+		html.required = true
+	}
+}
+
+// Un seul jar exécutable dans build/libs : le Dockerfile copie *.jar vers app.jar
+tasks.named('jar') {
+	enabled = false
 }
