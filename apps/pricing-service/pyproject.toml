@@ -1,3 +1,11 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+# E : erreurs de style pycodestyle, F : erreurs Pyflakes, I : tri des imports
+select = ["E", "F", "I"]
