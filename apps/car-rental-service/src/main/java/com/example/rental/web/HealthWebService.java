@@ -1,6 +1,5 @@
 package com.example.rental.web;
 
-import java.util.List;
 import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
