@@ -46,12 +46,17 @@ jobs:
         working-directory: apps/car-rental-service
         run: ./gradlew clean test
 
-      - name: Upload test results
+      # Rapports JUnit (XML) et HTML conservés même si les tests échouent
+      - name: Upload test reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: test-results
-          path: apps/car-rental-service/build/test-results/
+          name: java-test-reports
+          path: |
+            apps/car-rental-service/build/test-results/test/
+            apps/car-rental-service/build/reports/tests/test/
+          retention-days: 7
+          if-no-files-found: warn
 
   quality:
     name: Java quality
@@ -72,6 +77,16 @@ jobs:
       - name: Run Checkstyle
         working-directory: apps/car-rental-service
         run: ./gradlew checkstyleMain checkstyleTest
+
+      # Rapports Checkstyle (XML et HTML) conservés même en cas de violation
+      - name: Upload Checkstyle reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-checkstyle-reports
+          path: apps/car-rental-service/build/reports/checkstyle/
+          retention-days: 7
+          if-no-files-found: warn
 
   image:
     name: Java Docker image
